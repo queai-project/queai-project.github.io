@@ -1,28 +1,22 @@
+# 🐙 QueAI Landing Page
 
-## Resumen ejecutivo
-Este proyecto es una aplicación **Django 5** que funciona como un **App Store local de plugins basados en Docker Compose**. La aplicación detecta módulos en el directorio `plugins/`, lee su `manifest.json`, los sincroniza con una tabla `AvailableApp` y permite instalarlos, iniciarlos, detenerlos, desinstalarlos y consultar logs desde una interfaz web.
+Official source code for [queai.dev](https://queai.dev), the gateway to the QueAI modular ecosystem.
 
-## Arquitectura
-- **Core Django (`core/`)**
-  - Configuración global (`settings.py`), enrutamiento principal (`urls.py`) y página de inicio simple (`views.py`).
-- **Aplicación principal (`app_store/`)**
-  - Modelo `AvailableApp` con metadatos de módulos.
-  - Vistas para sincronización de plugins, control de ciclo de vida con Docker Compose y obtención de logs.
-  - Template único `apps.html` para UI.
-- **Plugins (`plugins/`)**
-  - Cada plugin contiene `manifest.json`, `Dockerfile` y `docker-compose.yml`.
-  - Actualmente hay 3 plugins de ejemplo.
+<p align="center">
+  <img src="logo.png" alt="Kyubit Logo" width="200">
+</p>
 
-## Flujo funcional principal
-1. El usuario abre `/store/`.
-2. `get_apps` recorre `PLUGINS_DIR`, valida `manifest.json` y `docker-compose.yml`.
-3. Se hace `update_or_create` en la BD para cada plugin válido.
-4. Se marca estado de ejecución mediante `docker-compose top`.
-5. La UI muestra botones contextuales (instalar, abrir, detener, desinstalar, logs).
+## ✨ Project Vision
+**QueAI** is built to decentralize Artificial Intelligence. We provide a seamless way to run powerful models (LLMs, OCR, STT) on your own local hardware, ensuring **100% data privacy** without cloud dependencies or API fees.
 
-## Fortalezas
-- Sincronización dinámica entre filesystem y base de datos.
-- Operaciones Docker encapsuladas por endpoint.
-- UI funcional y clara para control operativo.
-- Lógica de estado `running` separada de `is_installed`.
+This landing page introduces **Kyubit**, our friendly octopus mascot and the heart of our orchestration logic.
 
+## Get Involved
+Help us grow the QueAI ecosystem:
+1. Star ⭐ this repository to boost our visibility.
+2. Check the [Issues](https://github.com/queai-project/queai-project.github.io/issues) for pending web improvements.
+3. Fork and submit a Pull Request to contribute.
+
+---
+Built with ❤️ by the **QueAI** Community.  
+Stay local. Stay private. [queai.dev](https://queai.dev)

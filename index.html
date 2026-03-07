@@ -1,257 +1,829 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="QueAI - El orquestador de IA modular y local. Privacidad total con Kyubit.">
-    <meta name="keywords" content="QueAI, IA local, orquestador modular, Kyubit, Docker AI, privacidad">
-    <meta name="author" content="QueAI Project">
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="QueAI — The modular AI orchestrator. Run LLMs, OCR, STT, TTS and RAG locally or in the cloud. Open source, private by default, zero vendor lock-in."
+    />
+    <meta
+      name="keywords"
+      content="QueAI, queai, QueAI orchestrator, local AI, LLM orchestrator, OCR, STT, TTS, RAG, Docker AI, open source, privacy, self-hosted AI, cloud AI"
+    />
+    <meta name="author" content="QueAI Project" />
+    <meta property="og:title" content="QueAI | Modular AI Orchestration. Your Rules." />
+    <meta
+      property="og:description"
+      content="Orchestrate AI models locally or in the cloud. One platform, zero vendor lock-in, 100% open source."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://queai.dev/" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="QueAI | Modular AI Orchestration. Your Rules." />
+    <meta
+      name="twitter:description"
+      content="Orchestrate AI models locally or in the cloud. One platform, zero vendor lock-in, 100% open source."
+    />
     <link rel="canonical" href="https://queai.dev/" />
-    <link rel="icon" href="/favicon.ico" sizes="any">
-    <link rel="icon" href="/favicon.png" type="image/png">
-    <title>QueAI | Orquestador de IA Local y Modular</title>
-    <style>
-        /* Variables de color basadas en tu logo */
-        :root {
-            --primary-blue: #7dd3fc;
-            --light-blue: #bae6fd;
-            --gradient: linear-gradient(135deg, #e0f2fe 0%, #7dd3fc 100%);
-            --text-dark: #0f172a;
-            --text-gray: #475569;
-            --bg-light: #f8fafc;
-            --white: #ffffff;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-        }
-
-        body {
-            background-color: var(--white);
-            color: var(--text-dark);
-            line-height: 1.6;
-        }
-
-        /* Navegación */
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1.5rem 5%;
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(10px);
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 100;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-        }
-
-        .logo-container {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 1.5rem;
-            font-weight: 800;
-            color: var(--text-dark);
-            text-decoration: none;
-        }
-
-        .logo-img {
-            height: 100px; /* Ajusta según tu logo */
-        }
-
-        .nav-links a {
-            margin-left: 2rem;
-            text-decoration: none;
-            color: var(--text-gray);
-            font-weight: 500;
-            transition: color 0.3s;
-        }
-
-        .nav-links a:hover {
-            color: var(--primary-blue);
-        }
-
-        .btn-github {
-            background: var(--gradient);
-            color: var(--text-dark);
-            padding: 0.5rem 1.2rem;
-            border-radius: 8px;
-            font-weight: 600;
-            text-decoration: none;
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-
-        .btn-github:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(125, 211, 252, 0.4);
-        }
-
-        /* Hero Section */
-        .hero {
-            padding: 12rem 5% 6rem;
-            text-align: center;
-            background: radial-gradient(circle at top right, #e0f2fe 0%, transparent 40%),
-                        radial-gradient(circle at bottom left, #bae6fd 0%, transparent 40%);
-        }
-
-        .hero h1 {
-            font-size: 3.5rem;
-            font-weight: 800;
-            margin-bottom: 1.5rem;
-            color: var(--text-dark);
-            letter-spacing: -1px;
-        }
-
-        .hero h1 span {
-            background: var(--gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .hero p {
-            font-size: 1.25rem;
-            color: var(--text-gray);
-            max-width: 600px;
-            margin: 0 auto 2.5rem;
-        }
-
-        .cta-buttons {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-        }
-
-        .btn-primary {
-            background: var(--text-dark);
-            color: var(--white);
-            padding: 0.8rem 2rem;
-            border-radius: 8px;
-            font-weight: 600;
-            text-decoration: none;
-            font-size: 1.1rem;
-            transition: background 0.3s;
-        }
-
-        .btn-primary:hover {
-            background: #1e293b;
-        }
-
-        .btn-secondary {
-            background: var(--white);
-            color: var(--text-dark);
-            padding: 0.8rem 2rem;
-            border-radius: 8px;
-            font-weight: 600;
-            text-decoration: none;
-            font-size: 1.1rem;
-            border: 2px solid #e2e8f0;
-            transition: border-color 0.3s;
-        }
-
-        .btn-secondary:hover {
-            border-color: var(--primary-blue);
-        }
-
-        /* Features Section */
-        .features {
-            padding: 5rem 5%;
-            background-color: var(--bg-light);
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-        }
-
-        .feature-card {
-            background: var(--white);
-            padding: 2.5rem;
-            border-radius: 16px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-            transition: transform 0.3s;
-        }
-
-        .feature-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .feature-icon {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-        }
-
-        .feature-card h3 {
-            margin-bottom: 1rem;
-            color: var(--text-dark);
-            font-size: 1.3rem;
-        }
-
-        .feature-card p {
-            color: var(--text-gray);
-        }
-
-        /* Footer */
-        footer {
-            text-align: center;
-            padding: 3rem 5%;
-            color: var(--text-gray);
-            border-top: 1px solid #e2e8f0;
-        }
-
-        @media (max-width: 768px) {
-            .hero h1 { font-size: 2.5rem; }
-            .nav-links { display: none; }
-        }
-    </style>
-</head>
-<body>
-
+    <link rel="icon" href="./favicon.ico" sizes="any" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <title>QueAI | Modular AI Orchestration. Your Rules.</title>
+  </head>
+  <body>
+    <!-- NAV -->
     <nav>
-        <a href="#" class="logo-container">
-            <img src="./logo.png" alt="QueAI Logo" class="logo-img">
-            QueAI
-        </a>
-        <div class="nav-links">
-            <a href="#features">Características</a>
-            <a href="#modules">Módulos</a>
-            <a href="#docs">Documentación</a>
-        </div>
-        <a href="https://github.com/queai-hub" class="btn-github" target="_blank">Ver en GitHub</a>
+      <a href="#" class="nav-logo">
+        <span class="nav-logo-text">Que<em>AI</em></span>
+      </a>
+      <div class="nav-links">
+        <a href="#modules">Modules</a>
+        <a href="#how">Install</a>
+        <a href="#cases">Use Cases</a>
+        <a href="#community">Community</a>
+      </div>
+      <a
+        href="https://github.com/queai-project"
+        class="btn-nav"
+        target="_blank"
+        rel="noopener"
+        >★ GitHub</a
+      >
     </nav>
 
+    <!-- HERO -->
     <header class="hero">
-        <h1>Tu IA Local, <span>Orquestada.</span></h1>
-        <p>Ejecuta modelos potentes como OCR, STT y LLMs en tu propio hardware. Sin depender de la nube, 100% privado y empaquetado con Docker.</p>
-        <div class="cta-buttons">
-            <a href="#install" class="btn-primary">Empezar ahora</a>
-            <a href="#docs" class="btn-secondary">Leer la Documentación</a>
+      <div class="hbg-grid"></div>
+      <div class="hbg-glow"></div>
+      <div class="hero-left">
+        <div class="hero-tag">
+          <span class="tag-dot"></span>Open Source · Local &amp; Cloud · Free
         </div>
+        <h1 class="hero-title">
+          MODULAR<br />
+          <span class="outline">AI.</span><br />
+          <span class="accent">YOUR RULES.</span>
+        </h1>
+        <p class="hero-sub">
+          QueAI orchestrates AI modules on <strong>your hardware</strong> or
+          <strong>in the cloud</strong> — your choice, every time. Chat, RAG,
+          STT, TTS, OCR and more. One platform. Zero vendor lock-in.
+        </p>
+        <div class="install-pill">
+          <span class="install-label">Install</span>
+          <span class="install-cmd"
+            ><span class="cp">$</span> curl -fsSL https://get.queai.dev |
+            bash</span
+          >
+          <button class="install-copy" id="copyBtn" onclick="copyInstall()">
+            <svg
+              width="11"
+              height="11"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <rect x="9" y="9" width="13" height="13" rx="2" />
+              <path
+                d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"
+              />
+            </svg>
+            Copy
+          </button>
+        </div>
+        <div class="hero-cta">
+          <a href="#how" class="btn-primary">↓ &nbsp;Get Started</a>
+          <a
+            href="https://github.com/queai-project"
+            class="btn-ghost"
+            target="_blank"
+            rel="noopener"
+            >View on GitHub</a
+          >
+        </div>
+        <div class="hero-stats">
+          <div>
+            <div class="sn">5<span>+</span></div>
+            <div class="sl">AI Modules</div>
+          </div>
+          <div>
+            <div class="sn">2<span>x</span></div>
+            <div class="sl">Local &amp; Cloud</div>
+          </div>
+          <div>
+            <div class="sn">$0</div>
+            <div class="sl">Core Cost</div>
+          </div>
+          <div>
+            <div class="sn">1</div>
+            <div class="sl">Command Install</div>
+          </div>
+        </div>
+      </div>
+      <div class="hero-right">
+        <div class="logo-ring">
+          <div class="ring r1"></div>
+          <div class="ring r2"></div>
+          <div class="ring r3"></div>
+          <img src="./logo.png" alt="Kyubit — QueAI mascot"/>
+        </div>
+        <div class="hbadges">
+          <span class="hbadge hbadge-local"
+            ><span class="bdot"></span>Local</span
+          >
+          <span class="hbadge hbadge-plus">+</span>
+          <span class="hbadge hbadge-cloud"
+            ><span class="bdot"></span>Cloud</span
+          >
+          <span class="hbadge hbadge-plus">=</span>
+          <span class="hbadge hbadge-choice">Your choice</span>
+        </div>
+        <div class="terminal">
+          <div class="tbar">
+            <div class="td r"></div>
+            <div class="td y"></div>
+            <div class="td g"></div>
+            <div class="ttitle">queai — terminal</div>
+          </div>
+          <div class="tl"><span class="c"># One command. Any OS.</span></div>
+          <div class="tl">
+            <span class="p">$</span>
+            <span class="w">curl -fsSL https://get.queai.dev | bash</span>
+          </div>
+          <div class="tl"><span class="ok">✓</span> Detected: macOS arm64</div>
+          <div class="tl"><span class="ok">✓</span> Docker found (v26.1)</div>
+          <div class="tl">
+            <span class="ok">✓</span> QueAI running → localhost:8080
+            <span class="cursor"></span>
+          </div>
+        </div>
+      </div>
     </header>
 
-    <section id="features" class="features">
-        <div class="feature-card">
-            <div class="feature-icon">🔒</div>
-            <h3>Privacidad Primero</h3>
-            <p>Tus datos nunca salen de tu máquina. Todos los módulos y modelos de lenguaje se ejecutan localmente en tu propio hardware.</p>
+    <!-- MARQUEE -->
+    <div class="marquee">
+      <div class="mtrack">
+        <span class="mitem"><span class="dot">·</span>Local LLM</span>
+        <span class="mitem"><span class="dot">·</span>Cloud RAG</span>
+        <span class="mitem"><span class="dot">·</span>Speech-to-Text</span>
+        <span class="mitem"><span class="dot">·</span>Text-to-Speech</span>
+        <span class="mitem"><span class="dot">·</span>OCR Offline</span>
+        <span class="mitem"><span class="dot">·</span>Docker-Powered</span>
+        <span class="mitem"><span class="dot">·</span>100% Open Source</span>
+        <span class="mitem"><span class="dot">·</span>Hybrid Deployment</span>
+        <span class="mitem"><span class="dot">·</span>Community Plugins</span>
+        <span class="mitem"><span class="dot">·</span>Zero Lock-in</span>
+        <span class="mitem"><span class="dot">·</span>Privacy First</span>
+        <span class="mitem"><span class="dot">·</span>Local LLM</span>
+        <span class="mitem"><span class="dot">·</span>Cloud RAG</span>
+        <span class="mitem"><span class="dot">·</span>Speech-to-Text</span>
+        <span class="mitem"><span class="dot">·</span>Text-to-Speech</span>
+        <span class="mitem"><span class="dot">·</span>OCR Offline</span>
+        <span class="mitem"><span class="dot">·</span>Docker-Powered</span>
+        <span class="mitem"><span class="dot">·</span>100% Open Source</span>
+        <span class="mitem"><span class="dot">·</span>Hybrid Deployment</span>
+        <span class="mitem"><span class="dot">·</span>Community Plugins</span>
+        <span class="mitem"><span class="dot">·</span>Zero Lock-in</span>
+        <span class="mitem"><span class="dot">·</span>Privacy First</span>
+      </div>
+    </div>
+
+    <!-- MODULES -->
+    <section id="modules" class="modules">
+      <div class="mod-header reveal">
+        <div>
+          <div class="slabel">// Module Ecosystem</div>
+          <h2 class="stitle">Activate only<br />what you need.</h2>
+          <p class="ssub">
+            Each module runs locally, in the cloud, or both — you decide per
+            deployment. Install, start, stop and remove with one click from the
+            QueAI dashboard.
+          </p>
         </div>
-        <div class="feature-card">
-            <div class="feature-icon">🧩</div>
-            <h3>Arquitectura Modular</h3>
-            <p>Activa solo lo que necesites. Desde transcripción de audio (STT) hasta análisis de texto (OCR), conecta los plugins como si fueran legos.</p>
+        <div class="dtoggle">
+          <button class="dbtn active" onclick="filterMods(this, 'all')">
+            All
+          </button>
+          <button class="dbtn" onclick="filterMods(this, 'local')">
+            Local
+          </button>
+          <button class="dbtn" onclick="filterMods(this, 'cloud')">
+            Cloud
+          </button>
         </div>
-        <div class="feature-card">
-            <div class="feature-icon">🐳</div>
-            <h3>Despliegue con Docker</h3>
-            <p>Olvídate de las dependencias rotas. Todo el ecosistema de QueAI está contenedorizado para funcionar con un simple comando.</p>
+      </div>
+      <div class="mgrid reveal" id="mgrid">
+        <div class="mcard" data-d="local cloud">
+          <div class="mn">01</div>
+          <div class="mtop">
+            <div class="micon">💬</div>
+            <div class="mbadges">
+              <span class="mb mb-l">Local</span
+              ><span class="mb mb-c">Cloud</span>
+            </div>
+          </div>
+          <div class="mname">CHAT</div>
+          <div class="mfull">Large Language Model</div>
+          <p class="mdesc">
+            Conversational AI with any LLM. Run Llama, Mistral or Phi locally
+            with Ollama, or connect to OpenAI, Anthropic and other cloud
+            providers — same interface.
+          </p>
+          <div class="mexamples">
+            <span class="mex">Ollama</span><span class="mex">LM Studio</span
+            ><span class="mex">OpenAI</span><span class="mex">Anthropic</span>
+          </div>
         </div>
+
+        <div class="mcard" data-d="local cloud">
+          <div class="mn">02</div>
+          <div class="mtop">
+            <div class="micon">📚</div>
+            <div class="mbadges">
+              <span class="mb mb-l">Local</span
+              ><span class="mb mb-c">Cloud</span>
+            </div>
+          </div>
+          <div class="mname">RAG</div>
+          <div class="mfull">Retrieval-Augmented Generation</div>
+          <p class="mdesc">
+            Query your documents in plain language. Run vector DB and embeddings
+            locally for full privacy, or use cloud embeddings for faster
+            inference. Your choice.
+          </p>
+          <div class="mexamples">
+            <span class="mex">ChromaDB</span><span class="mex">LlamaIndex</span
+            ><span class="mex">Pinecone</span>
+          </div>
+        </div>
+
+        <div class="mcard" data-d="local cloud">
+          <div class="mn">03</div>
+          <div class="mtop">
+            <div class="micon">🎙️</div>
+            <div class="mbadges">
+              <span class="mb mb-l">Local</span
+              ><span class="mb mb-c">Cloud</span>
+            </div>
+          </div>
+          <div class="mname">STT</div>
+          <div class="mfull">Speech-to-Text</div>
+          <p class="mdesc">
+            Transcribe audio offline with Whisper for full privacy, or push to
+            cloud APIs for faster throughput. Meetings, dictation and recordings
+            to text in seconds.
+          </p>
+          <div class="mexamples">
+            <span class="mex">Whisper</span
+            ><span class="mex">faster-whisper</span
+            ><span class="mex">Deepgram</span>
+          </div>
+        </div>
+
+        <div class="mcard" data-d="local cloud">
+          <div class="mn">04</div>
+          <div class="mtop">
+            <div class="micon">🔊</div>
+            <div class="mbadges">
+              <span class="mb mb-l">Local</span
+              ><span class="mb mb-c">Cloud</span>
+            </div>
+          </div>
+          <div class="mname">TTS</div>
+          <div class="mfull">Text-to-Speech</div>
+          <p class="mdesc">
+            High-quality voice synthesis on your own hardware with Coqui or
+            Piper, or route to cloud TTS for premium voices — no extra
+            infrastructure required.
+          </p>
+          <div class="mexamples">
+            <span class="mex">Coqui</span><span class="mex">Piper TTS</span
+            ><span class="mex">ElevenLabs</span>
+          </div>
+        </div>
+
+        <div class="mcard" data-d="local">
+          <div class="mn">05</div>
+          <div class="mtop">
+            <div class="micon">📄</div>
+            <div class="mbadges"><span class="mb mb-l">Local</span></div>
+          </div>
+          <div class="mname">OCR</div>
+          <div class="mfull">Optical Character Recognition</div>
+          <p class="mdesc">
+            Extract text from scanned documents, images and PDFs — entirely
+            offline. Invoices, forms and physical documents digitized without
+            leaving your network.
+          </p>
+          <div class="mexamples">
+            <span class="mex">Tesseract</span><span class="mex">EasyOCR</span
+            ><span class="mex">DocTR</span>
+          </div>
+        </div>
+
+        <div class="mcard" data-d="local cloud">
+          <div class="mn">06</div>
+          <div class="mtop">
+            <div class="micon">🔌</div>
+            <div class="mbadges">
+              <span class="mb mb-l">Local</span
+              ><span class="mb mb-c">Cloud</span>
+            </div>
+          </div>
+          <div class="mname">PLUGINS</div>
+          <div class="mfull">Community Extensions</div>
+          <p class="mdesc">
+            Extend QueAI with your own module using a simple
+            <code
+              style="
+                font-family: var(--font-mono);
+                color: var(--red);
+                font-size: 0.8em;
+              "
+              >manifest.json</code
+            >. Local agent, cloud workflow or hybrid — the ecosystem is built by
+            the community.
+          </p>
+          <div class="mexamples">
+            <span class="mex">Open API</span
+            ><span class="mex">manifest.json</span
+            ><span class="mex">Agents</span>
+          </div>
+        </div>
+      </div>
     </section>
 
-    <footer>
-        <p>&copy; 2026 QueAI Project. Construido para la comunidad Open Source.</p>
-    </footer>
+    <div class="divider"></div>
 
-</body>
+    <!-- HOW IT WORKS -->
+    <section id="how" class="how">
+      <div class="reveal">
+        <div class="slabel">// Installation</div>
+        <h2 class="stitle">Zero to running<br />in minutes.</h2>
+        <p class="ssub">
+          One command works on Linux, macOS and Windows (WSL2). No manual
+          dependency management, no broken environments.
+        </p>
+      </div>
+      <div class="how-grid">
+        <div class="steps reveal">
+          <div class="step">
+            <div class="step-n">01</div>
+            <div>
+              <div class="step-t">Run the installer</div>
+              <p class="step-d">
+                A single
+                <code
+                  style="
+                    font-family: var(--font-mono);
+                    color: var(--red);
+                    font-size: 0.85em;
+                  "
+                  >curl</code
+                >
+                command detects your OS, verifies Docker and pulls the QueAI
+                core image. Works on any platform.
+              </p>
+              <div class="step-c">
+                <span class="kw">curl</span> -fsSL https://get.queai.dev | bash
+              </div>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-n">02</div>
+            <div>
+              <div class="step-t">Open the dashboard</div>
+              <p class="step-d">
+                Navigate to
+                <code
+                  style="
+                    font-family: var(--font-mono);
+                    color: var(--red);
+                    font-size: 0.85em;
+                  "
+                  >localhost:8080</code
+                >
+                in your browser. QueAI's module marketplace is ready.
+              </p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-n">03</div>
+            <div>
+              <div class="step-t">Install your modules</div>
+              <p class="step-d">
+                Browse the catalog, pick local or cloud deployment per module,
+                and click Install. Each module runs as an isolated Docker
+                container.
+              </p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-n">04</div>
+            <div>
+              <div class="step-t">Start using AI</div>
+              <p class="step-d">
+                Chat with documents, transcribe audio, extract text from images.
+                All orchestrated by QueAI, all under your control.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="how-vis reveal">
+          <div class="abox">
+            <div class="alabel">QueAI Architecture</div>
+            <div class="arow">
+              <div class="an" style="background: var(--gray-7)">
+                Browser / Dashboard UI
+              </div>
+            </div>
+            <div class="aarr">↕</div>
+            <div class="ac">QUEAI CORE</div>
+            <div class="aarr">
+              ↕
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              ↕
+            </div>
+            <div class="arow" style="gap: 0.9rem">
+              <div style="flex: 1">
+                <div
+                  style="
+                    font-family: var(--font-mono);
+                    font-size: 0.58rem;
+                    color: var(--green);
+                    letter-spacing: 0.09em;
+                    text-transform: uppercase;
+                    margin-bottom: 0.38rem;
+                  "
+                >
+                  ● Local
+                </div>
+                <div
+                  style="display: flex; flex-direction: column; gap: 0.32rem"
+                >
+                  <div class="an ln">Chat (Ollama)</div>
+                  <div class="an ln">RAG (Chroma)</div>
+                  <div class="an ln">Whisper STT</div>
+                  <div class="an ln">OCR Engine</div>
+                </div>
+              </div>
+              <div style="flex: 1">
+                <div
+                  style="
+                    font-family: var(--font-mono);
+                    font-size: 0.58rem;
+                    color: var(--cloud);
+                    letter-spacing: 0.09em;
+                    text-transform: uppercase;
+                    margin-bottom: 0.38rem;
+                  "
+                >
+                  ● Cloud
+                </div>
+                <div
+                  style="display: flex; flex-direction: column; gap: 0.32rem"
+                >
+                  <div class="an cn">OpenAI / Anthropic</div>
+                  <div class="an cn">Pinecone RAG</div>
+                  <div class="an cn">Deepgram STT</div>
+                  <div class="an cn">ElevenLabs TTS</div>
+                </div>
+              </div>
+            </div>
+            <div class="aarr" style="margin-top: 0.48rem">↕</div>
+            <div class="arow">
+              <div class="an" style="background: var(--gray-7)">
+                🐳 Docker Engine
+              </div>
+            </div>
+          </div>
+          <div class="rbox">
+            <div class="alabel" style="margin-bottom: 0.7rem">
+              System Requirements
+            </div>
+            <div class="rrow">
+              <span class="rk">Docker</span><span class="rv">v24 or later</span>
+            </div>
+            <div class="rrow">
+              <span class="rk">RAM</span
+              ><span class="rv">8 GB min (16 GB recommended)</span>
+            </div>
+            <div class="rrow">
+              <span class="rk">GPU</span
+              ><span class="rv">Optional — accelerates local models</span>
+            </div>
+            <div class="rrow">
+              <span class="rk">OS</span
+              ><span class="rv">Linux · macOS · Windows WSL2</span>
+            </div>
+            <div class="rrow">
+              <span class="rk">Internet</span
+              ><span class="rv">Only for cloud modules or initial pull</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- USE CASES -->
+    <section id="cases" class="cases">
+      <div class="reveal">
+        <div class="slabel">// Who it's for</div>
+        <h2 class="stitle">Built for people<br />who need control.</h2>
+        <p class="ssub">
+          Whether you need full privacy, predictable costs or freedom from API
+          dependencies — QueAI puts you in charge.
+        </p>
+      </div>
+      <div class="cgrid reveal">
+        <div class="ccard">
+          <div class="cavatar">🧑‍💻</div>
+          <div class="crole">Developers &amp; Makers</div>
+          <div class="ctitle">AI without infrastructure headaches</div>
+          <p class="cdesc">
+            Integrate LLMs, STT or RAG into your projects via local REST
+            endpoints. No billing surprises, no API rate limits, no data leaving
+            your machine.
+          </p>
+          <div class="ctags">
+            <span class="ct">Chat LLM</span><span class="ct">STT</span
+            ><span class="ct">Plugins API</span>
+          </div>
+        </div>
+        <div class="ccard">
+          <div class="cavatar">🏢</div>
+          <div class="crole">SMBs &amp; Small Teams</div>
+          <div class="ctitle">Private knowledge base, no leaks</div>
+          <p class="cdesc">
+            Chat with your internal documents, contracts and manuals without
+            sending a single byte to third-party servers. RAG + OCR on-premise,
+            fully self-hosted.
+          </p>
+          <div class="ctags">
+            <span class="ct">RAG</span><span class="ct">OCR</span
+            ><span class="ct">Chat LLM</span>
+          </div>
+        </div>
+        <div class="ccard">
+          <div class="cavatar">⚖️</div>
+          <div class="crole">Legal · Health · Consulting</div>
+          <div class="ctitle">Sensitive data stays on your network</div>
+          <p class="cdesc">
+            Professional secrecy, patient records, client data — QueAI never
+            routes your files through external servers unless you explicitly
+            configure it to. Full compliance control.
+          </p>
+          <div class="ctags">
+            <span class="ct">RAG</span><span class="ct">OCR</span
+            ><span class="ct">STT</span><span class="ct">TTS</span>
+          </div>
+        </div>
+        <div class="ccard">
+          <div class="cavatar">🔬</div>
+          <div class="crole">Researchers &amp; AI Enthusiasts</div>
+          <div class="ctitle">Experiment without limits</div>
+          <p class="cdesc">
+            Swap models, mix local and cloud providers, build custom pipelines
+            with plugins. QueAI is the playground for anyone who wants to push
+            AI capabilities further.
+          </p>
+          <div class="ctags">
+            <span class="ct">All Modules</span><span class="ct">Plugins</span
+            ><span class="ct">Hybrid</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PRINCIPLES -->
+    <section class="principles">
+      <div class="reveal">
+        <div class="slabel">// Product Principles</div>
+        <h2 class="stitle">What drives us.</h2>
+      </div>
+      <div class="pgrid reveal">
+        <div class="pcard">
+          <div class="picon">🔒</div>
+          <div class="pname">Local-First &amp; Private</div>
+          <p class="pdesc">
+            Your data never leaves your machine unless you choose cloud. Zero
+            telemetry, zero mandatory external calls.
+          </p>
+        </div>
+        <div class="pcard">
+          <div class="picon">☁️</div>
+          <div class="pname">Hybrid by Design</div>
+          <p class="pdesc">
+            Local and cloud are complementary options. Mix providers per module
+            based on your needs, budget and privacy requirements.
+          </p>
+        </div>
+        <div class="pcard">
+          <div class="picon">🆓</div>
+          <div class="pname">Free Core, Always</div>
+          <p class="pdesc">
+            The QueAI orchestration core is fully open source and free. No
+            freemium gates, no hidden limits in the base platform.
+          </p>
+        </div>
+        <div class="pcard">
+          <div class="picon">🧩</div>
+          <div class="pname">Extreme Modularity</div>
+          <p class="pdesc">
+            Every capability is a decoupled plugin. Activate what you need,
+            remove what you don't. No bloat, no assumptions.
+          </p>
+        </div>
+        <div class="pcard">
+          <div class="picon">✨</div>
+          <div class="pname">Operational Simplicity</div>
+          <p class="pdesc">
+            A UX designed for people who aren't infrastructure experts.
+            Installing a module shouldn't require a tutorial.
+          </p>
+        </div>
+        <div class="pcard">
+          <div class="picon">🌍</div>
+          <div class="pname">Community-Driven</div>
+          <p class="pdesc">
+            Public roadmap, newcomer-labeled issues, clear contribution guides.
+            The ecosystem grows because anyone can build on it.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- COMMUNITY -->
+    <section id="community" class="community">
+      <div class="comm-inner">
+        <div class="reveal">
+          <div class="slabel">// Open Source · Community</div>
+          <h2 class="stitle">We build the<br />ecosystem together.</h2>
+          <p class="ssub">
+            QueAI is an open source project with a transparent roadmap and a
+            community-first approach. Every plugin, issue and pull request makes
+            AI more accessible.
+          </p>
+          <div class="clist">
+            <div class="cli">
+              Publish your own module with a simple
+              <code
+                style="
+                  font-family: var(--font-mono);
+                  color: var(--red);
+                  font-size: 0.84em;
+                "
+                >manifest.json</code
+              >
+            </div>
+            <div class="cli">
+              Follow the public roadmap and propose features openly
+            </div>
+            <div class="cli">
+              Pick up issues labeled
+              <code
+                style="
+                  font-family: var(--font-mono);
+                  color: var(--red);
+                  font-size: 0.84em;
+                "
+                >good first issue</code
+              >
+              and start contributing today
+            </div>
+            <div class="cli">
+              Share real-world demos: local PDF RAG, offline STT, OCR pipelines
+            </div>
+            <div class="cli">
+              Improve documentation and help others get started faster
+            </div>
+          </div>
+        </div>
+        <div class="clinks reveal">
+          <a
+            href="https://github.com/queai-project"
+            class="clink"
+            target="_blank"
+            rel="noopener"
+          >
+            <div class="cli-icon">
+              <svg
+                width="22"
+                height="22"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+              >
+                <path
+                  d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0 1 12 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"
+                />
+              </svg>
+            </div>
+            <div>
+              <div class="cli-label">GitHub</div>
+              <div class="cli-sub">Code, issues and pull requests</div>
+            </div>
+            <div class="cli-arrow">→</div>
+          </a>
+          <a
+            href="https://github.com/queai-project/queai/discussions"
+            class="clink"
+            target="_blank"
+            rel="noopener"
+          >
+            <div class="cli-icon">💬</div>
+            <div>
+              <div class="cli-label">Discussions</div>
+              <div class="cli-sub">Ideas, questions and support</div>
+            </div>
+            <div class="cli-arrow">→</div>
+          </a>
+          <a
+            href="https://github.com/queai-project/queai/wiki"
+            class="clink"
+            target="_blank"
+            rel="noopener"
+          >
+            <div class="cli-icon">📖</div>
+            <div>
+              <div class="cli-label">Documentation</div>
+              <div class="cli-sub">Guides, quickstart and API reference</div>
+            </div>
+            <div class="cli-arrow">→</div>
+          </a>
+          <a
+            href="https://github.com/queai-project/queai/blob/main/CONTRIBUTING.md"
+            class="clink"
+            target="_blank"
+            rel="noopener"
+          >
+            <div class="cli-icon">🛠️</div>
+            <div>
+              <div class="cli-label">Contribute</div>
+              <div class="cli-sub">Plugin guide and contribution docs</div>
+            </div>
+            <div class="cli-arrow">→</div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- BIG CTA -->
+    <section class="bigcta">
+      <div class="bigcta-bg">QUEAI</div>
+      <div class="bigcta-content reveal">
+        <div class="slabel">// Get started today</div>
+        <h2 class="stitle">Your AI. Your hardware.<br />Your rules.</h2>
+        <p>
+          Install QueAI in minutes and start orchestrating AI — locally, in the
+          cloud, or both. No credit card. No lock-in. Just AI.
+        </p>
+        <a
+          href="https://github.com/queai-project/queai"
+          class="btn-big"
+          target="_blank"
+          rel="noopener"
+        >
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path
+              d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0 1 12 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"
+            />
+          </svg>
+          Install QueAI — It's free
+        </a>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+      <a href="#" class="flogo"
+        ><img src="./logo.png" alt="QueAI" /><span>QueAI</span></a
+      >
+      <div class="fcopy">© 2026 QueAI Project · Open Source · queai.dev</div>
+      <div class="flinks">
+        <a
+          href="https://github.com/queai-project"
+          target="_blank"
+          rel="noopener"
+          >GitHub</a
+        >
+        <a href="#modules">Modules</a>
+        <a href="#how">Install</a>
+        <a href="#community">Community</a>
+      </div>
+
+      <script src="app.js"></script>
+    </footer>
+  </body>
 </html>

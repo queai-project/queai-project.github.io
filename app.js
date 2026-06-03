@@ -5,7 +5,7 @@
 
   // Copy install command
   function copyInstall() {
-    navigator.clipboard.writeText('curl -fsSL https://get.queai.dev | bash').then(() => {
+    navigator.clipboard.writeText('curl -fsSL https://raw.githubusercontent.com/queai-project/QueAI/main/install.sh | bash').then(() => {
       const btn = document.getElementById('copyBtn');
       btn.textContent = '✓ Copied';
       btn.classList.add('copied');

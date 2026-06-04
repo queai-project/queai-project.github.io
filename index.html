@@ -49,8 +49,7 @@
       </a>
       <div class="nav-links">
         <a href="#modules">Modules</a>
-        <a href="#how">Install</a>
-        <a href="#cases">Use Cases</a>
+        <a href="#get-started">Get Started</a>
         <a href="#community">Community</a>
       </div>
       <a
@@ -83,7 +82,7 @@
         <div class="install-pill">
           <span class="install-label">Install</span>
           <span class="install-cmd"
-            ><span class="cp">$</span> curl -fsSL https://raw.githubusercontent.com/queai-project/QueAI/main/install.sh | bash</span
+            ><span class="cp">$</span> curl -fsSL https://queai.dev/install.sh | bash</span
           >
           <button class="install-copy" id="copyBtn" onclick="copyInstall()">
             <svg
@@ -159,7 +158,7 @@
           <div class="tl"><span class="c"># One command. Any OS.</span></div>
           <div class="tl">
             <span class="p">$</span>
-            <span class="w">curl -fsSL https://raw.githubusercontent.com/queai-project/QueAI/main/install.sh | bash</span>
+            <span class="w">curl -fsSL https://queai.dev/install.sh | bash</span>
           </div>
           <div class="tl"><span class="ok">✓</span> Detected: macOS arm64</div>
           <div class="tl"><span class="ok">✓</span> Docker found (v26.1)</div>
@@ -171,8 +170,8 @@
       </div>
     </header>
 
-    <!-- MARQUEE -->
-    <div class="marquee">
+    <!-- MARQUEE removed: decorative noise -->
+    <div class="marquee" hidden>
       <div class="mtrack">
         <span class="mitem"><span class="dot">·</span>OCR Offline</span>
         <span class="mitem"><span class="dot">·</span>Speech-to-Text</span>
@@ -201,43 +200,35 @@
     <section id="modules" class="modules">
       <div class="mod-header reveal">
         <div>
-          <div class="slabel">// Module Ecosystem</div>
-          <h2 class="stitle">Activate only<br />what you need.</h2>
+          <div class="slabel">// Modules</div>
+          <h2 class="stitle">Composable modules.<br />One install, one runtime.</h2>
           <p class="ssub">
-            Each module runs as an independent container on your own hardware.
-            Install, start, stop and remove with one click from the QueAI
-            dashboard.
+            Each module is an independent Docker container with its own UI,
+            REST API and configuration. Installed, started, stopped and
+            removed from the kernel — never from the host.
           </p>
         </div>
         <div class="dtoggle">
-          <button class="dbtn active" onclick="filterMods(this, 'all')">
-            All
-          </button>
-          <button class="dbtn" onclick="filterMods(this, 'available')">
-            Available
-          </button>
-          <button class="dbtn" onclick="filterMods(this, 'soon')">
-            Roadmap
-          </button>
+          <button class="dbtn active" onclick="filterMods(this, 'all')">All</button>
+          <button class="dbtn" onclick="filterMods(this, 'available')">Available</button>
+          <button class="dbtn" onclick="filterMods(this, 'soon')">Roadmap</button>
         </div>
       </div>
       <div class="mgrid reveal" id="mgrid">
         <div class="mcard" data-d="available">
           <div class="mn">01</div>
           <div class="mtop">
-            <div class="micon">📄</div>
             <div class="mbadges"><span class="mb mb-l">Available</span></div>
           </div>
           <div class="mname">OCR</div>
           <div class="mfull">Optical Character Recognition</div>
           <p class="mdesc">
-            Extract text from scanned documents, images and PDFs — entirely
-            offline. Tesseract on CPU, Redis-backed job queue, live progress
-            via SSE. Invoices, forms and physical documents digitized without
-            leaving your network.
+            Tesseract pipeline on CPU. PDF, PNG, JPG and TIFF in, plain text
+            out. Async job queue backed by Redis, server-sent events for
+            live progress.
           </p>
           <div class="mexamples">
-            <span class="mex">Tesseract</span><span class="mex">PDF / PNG / JPG</span
+            <span class="mex">Tesseract</span><span class="mex">Redis + RQ</span
             ><span class="mex">SSE</span>
           </div>
         </div>
@@ -245,19 +236,18 @@
         <div class="mcard" data-d="available">
           <div class="mn">02</div>
           <div class="mtop">
-            <div class="micon">🎙️</div>
             <div class="mbadges"><span class="mb mb-l">Available</span></div>
           </div>
           <div class="mname">STT</div>
           <div class="mfull">Speech-to-Text</div>
           <p class="mdesc">
-            Transcribe audio offline with faster-whisper on CPU. Meetings,
-            dictation and recordings to text in seconds, with a task queue
-            and downloadable results — all on your hardware.
+            faster-whisper on CPU with VAD filtering and configurable
+            compute type. Audio in, transcript with optional timestamps
+            out. Task queue, downloadable results, no audio leaves the host.
           </p>
           <div class="mexamples">
             <span class="mex">faster-whisper</span
-            ><span class="mex">CPU</span
+            ><span class="mex">int8 CPU</span
             ><span class="mex">VAD</span>
           </div>
         </div>
@@ -265,32 +255,30 @@
         <div class="mcard" data-d="available">
           <div class="mn">03</div>
           <div class="mtop">
-            <div class="micon">🔊</div>
             <div class="mbadges"><span class="mb mb-l">Available</span></div>
           </div>
           <div class="mname">TTS</div>
           <div class="mfull">Text-to-Speech</div>
           <p class="mdesc">
-            High-quality voice synthesis on your own hardware with Piper.
-            Multiple voices, English and Spanish out of the box, low latency
-            on CPU. No external API required.
+            Piper voices on CPU with sub-second latency. English and Spanish
+            multi-speaker out of the box. Streaming-friendly WAV output for
+            agents, screen readers and bots.
           </p>
           <div class="mexamples">
             <span class="mex">Piper</span><span class="mex">EN / ES</span
-            ><span class="mex">CPU</span>
+            ><span class="mex">low-latency</span>
           </div>
         </div>
 
         <div class="mcard" data-d="available">
           <div class="mn">04</div>
           <div class="mtop">
-            <div class="micon">🔌</div>
             <div class="mbadges"><span class="mb mb-l">Available</span></div>
           </div>
-          <div class="mname">PLUGINS</div>
-          <div class="mfull">Community Extensions</div>
+          <div class="mname">PLUGIN SDK</div>
+          <div class="mfull">Build your own module</div>
           <p class="mdesc">
-            Extend QueAI with your own module using a simple
+            A
             <code
               style="
                 font-family: var(--font-mono);
@@ -298,48 +286,48 @@
                 font-size: 0.8em;
               "
               >manifest.json</code
-            >. Each plugin is a Docker container with its own UI, API and
-            config — the ecosystem is built by the community.
+            >
+            and a docker-compose, that's all. The kernel picks it up,
+            handles routing through Traefik and exposes its UI under
+            <code style="font-family: var(--font-mono); color: var(--red); font-size: 0.8em;">/api/&lt;name&gt;</code>.
           </p>
           <div class="mexamples">
             <span class="mex">FastAPI</span
-            ><span class="mex">manifest.json</span
-            ><span class="mex">Docker</span>
+            ><span class="mex">Docker Compose</span
+            ><span class="mex">Traefik</span>
           </div>
         </div>
 
         <div class="mcard" data-d="soon">
           <div class="mn">05</div>
           <div class="mtop">
-            <div class="micon">💬</div>
             <div class="mbadges"><span class="mb mb-c">Roadmap</span></div>
           </div>
           <div class="mname">CHAT</div>
-          <div class="mfull">Large Language Model</div>
+          <div class="mfull">Local LLM endpoint</div>
           <p class="mdesc">
-            Conversational AI with local LLMs through Ollama. Planned for the
-            next milestone — chat with private models on your own machine.
+            Ollama-backed chat module with model management, streaming
+            responses and an OpenAI-compatible REST surface. Next on the
+            roadmap.
           </p>
           <div class="mexamples">
-            <span class="mex">Ollama</span><span class="mex">Coming soon</span>
+            <span class="mex">Ollama</span><span class="mex">OpenAI-compat</span>
           </div>
         </div>
 
         <div class="mcard" data-d="soon">
           <div class="mn">06</div>
           <div class="mtop">
-            <div class="micon">📚</div>
             <div class="mbadges"><span class="mb mb-c">Roadmap</span></div>
           </div>
           <div class="mname">RAG</div>
-          <div class="mfull">Retrieval-Augmented Generation</div>
+          <div class="mfull">Retrieval over your documents</div>
           <p class="mdesc">
-            Query your documents in plain language with a local vector store.
-            Planned after CHAT lands — bring your PDFs, get answers, fully
-            on-premise.
+            Local vector store with embeddings on CPU, source-cited answers.
+            Designed to plug into CHAT once it lands.
           </p>
           <div class="mexamples">
-            <span class="mex">Local vector DB</span><span class="mex">Coming soon</span>
+            <span class="mex">Local vector DB</span><span class="mex">embeddings</span>
           </div>
         </div>
       </div>
@@ -347,15 +335,15 @@
 
     <div class="divider"></div>
 
-    <!-- HOW IT WORKS -->
-    <section id="how" class="how">
+    <!-- GET STARTED -->
+    <section id="get-started" class="how">
       <div class="reveal">
-        <div class="slabel">// Installation</div>
-        <h2 class="stitle">Zero to running<br />in minutes.</h2>
+        <div class="slabel">// Get Started</div>
+        <h2 class="stitle">Install, verify, extend.</h2>
         <p class="ssub">
-          One command on Linux (Debian, Ubuntu, Fedora, Arch) and macOS.
-          Windows is supported through WSL2. The installer is non-destructive
-          — it detects existing Docker and reuses it.
+          One command on Linux (Debian/Ubuntu, Fedora/RHEL, Arch) and macOS.
+          Windows via WSL2. The installer detects existing Docker and reuses
+          it — it does not reinstall or uninstall anything you have running.
         </p>
       </div>
       <div class="how-grid">
@@ -363,62 +351,55 @@
           <div class="step">
             <div class="step-n">01</div>
             <div>
-              <div class="step-t">Run the installer</div>
+              <div class="step-t">Install the kernel</div>
               <p class="step-d">
-                A single
-                <code
-                  style="
-                    font-family: var(--font-mono);
-                    color: var(--red);
-                    font-size: 0.85em;
-                  "
-                  >curl</code
-                >
-                command detects your OS, verifies Docker and pulls the QueAI
-                core image. Works on any platform.
+                The installer is idempotent: rerunning it updates the kernel
+                without touching your existing containers.
               </p>
               <div class="step-c">
-                <span class="kw">curl</span> -fsSL https://raw.githubusercontent.com/queai-project/QueAI/main/install.sh | bash
+                <span class="kw">curl</span> -fsSL https://queai.dev/install.sh | bash
               </div>
             </div>
           </div>
           <div class="step">
             <div class="step-n">02</div>
             <div>
-              <div class="step-t">Open the dashboard</div>
+              <div class="step-t">Verify it's up</div>
               <p class="step-d">
-                Navigate to
-                <code
-                  style="
-                    font-family: var(--font-mono);
-                    color: var(--red);
-                    font-size: 0.85em;
-                  "
-                  >localhost:8080</code
-                >
-                in your browser. QueAI's module marketplace is ready.
+                Health endpoint reports kernel version and active module count.
               </p>
+              <div class="step-c">
+                <span class="kw">curl</span> -fsSL http://localhost:8080/health
+              </div>
             </div>
           </div>
           <div class="step">
             <div class="step-n">03</div>
             <div>
-              <div class="step-t">Install your modules</div>
+              <div class="step-t">Open the dashboard</div>
               <p class="step-d">
-                Browse the catalog, click Install. Each module pulls its
-                Docker image, exposes its own UI and API, and starts isolated
-                on your machine.
+                Sign in with the admin you created during install. From the
+                catalog you install, configure and monitor modules with one
+                click each.
               </p>
+              <div class="step-c">
+                <span class="kw">open</span> http://localhost:8080
+              </div>
             </div>
           </div>
           <div class="step">
             <div class="step-n">04</div>
             <div>
-              <div class="step-t">Start using AI</div>
+              <div class="step-t">Automate from the CLI</div>
               <p class="step-d">
-                Chat with documents, transcribe audio, extract text from images.
-                All orchestrated by QueAI, all under your control.
+                Optional. Install the
+                <code style="font-family: var(--font-mono); color: var(--red); font-size: 0.85em;">queai</code>
+                CLI to drive the same operations from scripts, CI or another
+                host through the REST API.
               </p>
+              <div class="step-c">
+                <span class="kw">pipx</span> install queai
+              </div>
             </div>
           </div>
         </div>
@@ -461,7 +442,7 @@
             <div class="aarr" style="margin-top: 0.48rem">↕</div>
             <div class="arow">
               <div class="an" style="background: var(--gray-7)">
-                🐳 Docker Engine
+                Docker Engine
               </div>
             </div>
           </div>
@@ -495,179 +476,26 @@
 
     <div class="divider"></div>
 
-    <!-- USE CASES -->
-    <section id="cases" class="cases">
-      <div class="reveal">
-        <div class="slabel">// Who it's for</div>
-        <h2 class="stitle">Built for people<br />who need control.</h2>
-        <p class="ssub">
-          Whether you need full privacy, predictable costs or freedom from API
-          dependencies — QueAI puts you in charge.
-        </p>
-      </div>
-      <div class="cgrid reveal">
-        <div class="ccard">
-          <div class="cavatar">🧑‍💻</div>
-          <div class="crole">Developers &amp; Makers</div>
-          <div class="ctitle">AI without infrastructure headaches</div>
-          <p class="cdesc">
-            Integrate OCR, STT and TTS into your projects via local REST
-            endpoints. No billing surprises, no API rate limits, no data
-            leaving your machine.
-          </p>
-          <div class="ctags">
-            <span class="ct">OCR</span><span class="ct">STT</span
-            ><span class="ct">TTS</span><span class="ct">Plugins API</span>
-          </div>
-        </div>
-        <div class="ccard">
-          <div class="cavatar">🏢</div>
-          <div class="crole">SMBs &amp; Small Teams</div>
-          <div class="ctitle">Digitize documents, no leaks</div>
-          <p class="cdesc">
-            Process scanned invoices, contracts and manuals without sending a
-            single byte to third-party servers. Tesseract OCR + faster-whisper
-            STT on-premise, fully self-hosted.
-          </p>
-          <div class="ctags">
-            <span class="ct">OCR</span><span class="ct">STT</span>
-          </div>
-        </div>
-        <div class="ccard">
-          <div class="cavatar">⚖️</div>
-          <div class="crole">Legal · Health · Consulting</div>
-          <div class="ctitle">Sensitive data stays on your network</div>
-          <p class="cdesc">
-            Professional secrecy, patient records, client data — QueAI never
-            routes your files through external servers. Everything runs in a
-            Docker container on your own machine.
-          </p>
-          <div class="ctags">
-            <span class="ct">OCR</span><span class="ct">STT</span
-            ><span class="ct">TTS</span>
-          </div>
-        </div>
-        <div class="ccard">
-          <div class="cavatar">🔬</div>
-          <div class="crole">Researchers &amp; AI Enthusiasts</div>
-          <div class="ctitle">Experiment without limits</div>
-          <p class="cdesc">
-            Build custom pipelines with plugins. Each module is a Docker
-            container with its own API — wire them together however you want.
-          </p>
-          <div class="ctags">
-            <span class="ct">All Modules</span><span class="ct">Plugins</span
-            ><span class="ct">Open API</span>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- PRINCIPLES -->
-    <section class="principles">
-      <div class="reveal">
-        <div class="slabel">// Product Principles</div>
-        <h2 class="stitle">What drives us.</h2>
-      </div>
-      <div class="pgrid reveal">
-        <div class="pcard">
-          <div class="picon">🔒</div>
-          <div class="pname">Local-First &amp; Private</div>
-          <p class="pdesc">
-            Your data never leaves your machine. Zero telemetry, zero
-            mandatory external calls. Air-gappable by design.
-          </p>
-        </div>
-        <div class="pcard">
-          <div class="picon">🐳</div>
-          <div class="pname">Docker-Native</div>
-          <p class="pdesc">
-            Each module is an isolated Docker container with its own
-            dependencies. Install, update or remove without polluting the
-            host system.
-          </p>
-        </div>
-        <div class="pcard">
-          <div class="picon">🆓</div>
-          <div class="pname">Free Core, Always</div>
-          <p class="pdesc">
-            The QueAI orchestration core is fully open source and free. No
-            freemium gates, no hidden limits in the base platform.
-          </p>
-        </div>
-        <div class="pcard">
-          <div class="picon">🧩</div>
-          <div class="pname">Extreme Modularity</div>
-          <p class="pdesc">
-            Every capability is a decoupled plugin. Activate what you need,
-            remove what you don't. No bloat, no assumptions.
-          </p>
-        </div>
-        <div class="pcard">
-          <div class="picon">✨</div>
-          <div class="pname">Operational Simplicity</div>
-          <p class="pdesc">
-            A UX designed for people who aren't infrastructure experts.
-            Installing a module shouldn't require a tutorial.
-          </p>
-        </div>
-        <div class="pcard">
-          <div class="picon">🌍</div>
-          <div class="pname">Community-Driven</div>
-          <p class="pdesc">
-            Public roadmap, newcomer-labeled issues, clear contribution guides.
-            The ecosystem grows because anyone can build on it.
-          </p>
-        </div>
-      </div>
-    </section>
-
-    <div class="divider"></div>
-
     <!-- COMMUNITY -->
     <section id="community" class="community">
       <div class="comm-inner">
         <div class="reveal">
-          <div class="slabel">// Open Source · Community</div>
-          <h2 class="stitle">We build the<br />ecosystem together.</h2>
+          <div class="slabel">// Open Source</div>
+          <h2 class="stitle">MIT-licensed.<br />Built in public.</h2>
           <p class="ssub">
-            QueAI is an open source project with a transparent roadmap and a
-            community-first approach. Every plugin, issue and pull request makes
-            AI more accessible.
+            Source, roadmap and CI are public. The plugin contract is a
+            single <code style="font-family: var(--font-mono); color: var(--red); font-size: 0.84em;">manifest.json</code> plus a
+            <code style="font-family: var(--font-mono); color: var(--red); font-size: 0.84em;">docker-compose.yml</code>; new modules ship as standalone repos under the queai-project org.
           </p>
           <div class="clist">
             <div class="cli">
-              Publish your own module with a simple
-              <code
-                style="
-                  font-family: var(--font-mono);
-                  color: var(--red);
-                  font-size: 0.84em;
-                "
-                >manifest.json</code
-              >
+              Publish a module: <code style="font-family: var(--font-mono); color: var(--red); font-size: 0.84em;">manifest.json</code> + Dockerfile, the kernel does the rest.
             </div>
             <div class="cli">
-              Follow the public roadmap and propose features openly
+              Open issues live on GitHub. Newcomer-friendly ones carry the <code style="font-family: var(--font-mono); color: var(--red); font-size: 0.84em;">good first issue</code> label.
             </div>
             <div class="cli">
-              Pick up issues labeled
-              <code
-                style="
-                  font-family: var(--font-mono);
-                  color: var(--red);
-                  font-size: 0.84em;
-                "
-                >good first issue</code
-              >
-              and start contributing today
-            </div>
-            <div class="cli">
-              Share real-world demos: offline STT for meetings, OCR for
-              invoices, custom plugins
-            </div>
-            <div class="cli">
-              Improve documentation and help others get started faster
+              Roadmap (Phase 0 → v1.0) tracked in <code style="font-family: var(--font-mono); color: var(--red); font-size: 0.84em;">docs/ROADMAP.md</code> of the kernel repo.
             </div>
           </div>
         </div>
@@ -702,7 +530,11 @@
             target="_blank"
             rel="noopener"
           >
-            <div class="cli-icon">💬</div>
+            <div class="cli-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
+              </svg>
+            </div>
             <div>
               <div class="cli-label">Discussions</div>
               <div class="cli-sub">Ideas, questions and support</div>
@@ -715,10 +547,15 @@
             target="_blank"
             rel="noopener"
           >
-            <div class="cli-icon">📖</div>
+            <div class="cli-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+              </svg>
+            </div>
             <div>
               <div class="cli-label">Documentation</div>
-              <div class="cli-sub">Guides, quickstart and API reference</div>
+              <div class="cli-sub">Architecture, operations, API reference</div>
             </div>
             <div class="cli-arrow">→</div>
           </a>
@@ -728,7 +565,11 @@
             target="_blank"
             rel="noopener"
           >
-            <div class="cli-icon">🛠️</div>
+            <div class="cli-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+              </svg>
+            </div>
             <div>
               <div class="cli-label">Contribute</div>
               <div class="cli-sub">Plugin guide and contribution docs</div>
@@ -736,32 +577,6 @@
             <div class="cli-arrow">→</div>
           </a>
         </div>
-      </div>
-    </section>
-
-    <!-- BIG CTA -->
-    <section class="bigcta">
-      <div class="bigcta-bg">QUEAI</div>
-      <div class="bigcta-content reveal">
-        <div class="slabel">// Get started today</div>
-        <h2 class="stitle">Your AI. Your hardware.<br />Your rules.</h2>
-        <p>
-          Install QueAI in minutes and start running AI on your own hardware.
-          No credit card. No lock-in. Just AI.
-        </p>
-        <a
-          href="https://github.com/queai-project/QueAI"
-          class="btn-big"
-          target="_blank"
-          rel="noopener"
-        >
-          <svg viewBox="0 0 24 24" fill="currentColor">
-            <path
-              d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0 1 12 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"
-            />
-          </svg>
-          Install QueAI — It's free
-        </a>
       </div>
     </section>
 

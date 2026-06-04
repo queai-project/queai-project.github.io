@@ -5,25 +5,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="QueAI — A modular, local-first AI orchestrator. Install OCR, STT and TTS modules on your own hardware with one command. Open source, private by default, zero vendor lock-in."
+      content="QueAI — Modular AI orchestrator. Local, cloud or hybrid. Each capability is a Docker container with its own UI and REST API. Open source, model-agnostic, one-command install."
     />
     <meta
       name="keywords"
-      content="QueAI, queai, QueAI orchestrator, local AI, OCR, STT, TTS, Docker AI, open source, privacy, self-hosted AI, on-premise AI"
+      content="QueAI, AI orchestrator, modular AI, OCR, STT, TTS, LLM, Ollama, OpenAI, Docker AI, open source, self-hosted AI, on-premise AI, hybrid AI"
     />
     <meta name="author" content="QueAI Project" />
-    <meta property="og:title" content="QueAI | Local-first AI Orchestration. Your Rules." />
+    <meta property="og:title" content="QueAI | Modular AI Orchestrator. Your Stack." />
     <meta
       property="og:description"
-      content="Run AI modules on your own hardware. One platform, zero vendor lock-in, 100% open source."
+      content="A runtime for AI capabilities. Plug local models, public APIs, or both — the kernel routes, monitors and audits from one place."
     />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://queai.dev/" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="QueAI | Local-first AI Orchestration. Your Rules." />
+    <meta name="twitter:title" content="QueAI | Modular AI Orchestrator. Your Stack." />
     <meta
       name="twitter:description"
-      content="Run AI modules on your own hardware. One platform, zero vendor lock-in, 100% open source."
+      content="A runtime for AI capabilities. Plug local models, public APIs, or both — the kernel routes, monitors and audits from one place."
     />
     <link rel="canonical" href="https://queai.dev/" />
     <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
@@ -39,7 +39,7 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="style.css" />
-    <title>QueAI | Local-first AI Orchestration. Your Rules.</title>
+    <title>QueAI | Modular AI Orchestrator. Your Stack.</title>
   </head>
   <body>
     <!-- NAV -->
@@ -67,17 +67,19 @@
       <div class="hbg-glow"></div>
       <div class="hero-left">
         <div class="hero-tag">
-          <span class="tag-dot"></span>Open Source · Local-first · Free
+          <span class="tag-dot"></span>Open Source · Model-agnostic · Free
         </div>
         <h1 class="hero-title">
-          LOCAL<br />
+          MODULAR<br />
           <span class="outline">AI.</span><br />
-          <span class="accent">YOUR RULES.</span>
+          <span class="accent">YOUR STACK.</span>
         </h1>
         <p class="hero-sub">
-          QueAI runs AI modules on <strong>your own hardware</strong>. OCR,
-          speech-to-text and text-to-speech today — chat, RAG and more
-          coming next. One platform. Zero vendor lock-in.
+          QueAI is an open-source runtime for AI capabilities. Each
+          capability is a Docker container with its own UI and REST API.
+          Plug <strong>local models</strong>, <strong>public APIs</strong>,
+          or both — the kernel routes, monitors and audits everything from
+          one place.
         </p>
         <div class="install-pill">
           <span class="install-label">Install</span>
@@ -114,19 +116,19 @@
         <div class="hero-stats">
           <div>
             <div class="sn">3</div>
-            <div class="sl">AI Modules</div>
+            <div class="sl">Modules shipping</div>
           </div>
           <div>
-            <div class="sn">100<span>%</span></div>
-            <div class="sl">Local &amp; Private</div>
+            <div class="sn">∞</div>
+            <div class="sl">Models, any host</div>
           </div>
           <div>
             <div class="sn">$0</div>
-            <div class="sl">Core Cost</div>
+            <div class="sl">Core cost</div>
           </div>
           <div>
             <div class="sn">1</div>
-            <div class="sl">Command Install</div>
+            <div class="sl">Command install</div>
           </div>
         </div>
       </div>
@@ -143,10 +145,10 @@
           >
           <span class="hbadge hbadge-plus">+</span>
           <span class="hbadge hbadge-cloud"
-            ><span class="bdot"></span>Private</span
+            ><span class="bdot"></span>Cloud</span
           >
           <span class="hbadge hbadge-plus">=</span>
-          <span class="hbadge hbadge-choice">Your AI</span>
+          <span class="hbadge hbadge-choice">Hybrid</span>
         </div>
         <div class="terminal">
           <div class="tbar">
@@ -155,7 +157,7 @@
             <div class="td g"></div>
             <div class="ttitle">queai — terminal</div>
           </div>
-          <div class="tl"><span class="c"># One command. Any OS.</span></div>
+          <div class="tl"><span class="c"># Modular AI runtime. Any model.</span></div>
           <div class="tl">
             <span class="p">$</span>
             <span class="w">curl -fsSL https://queai.dev/install.sh | bash</span>
@@ -201,11 +203,12 @@
       <div class="mod-header reveal">
         <div>
           <div class="slabel">// Modules</div>
-          <h2 class="stitle">Composable modules.<br />One install, one runtime.</h2>
+          <h2 class="stitle">Composable modules.<br />Local or remote — your call.</h2>
           <p class="ssub">
-            Each module is an independent Docker container with its own UI,
-            REST API and configuration. Installed, started, stopped and
-            removed from the kernel — never from the host.
+            Each module is a Docker container with its own UI, REST API and
+            configuration. Some run models locally on CPU. Others can be
+            thin proxies to public APIs (OpenAI, Anthropic, ElevenLabs).
+            The kernel doesn't care — it routes and audits both the same.
           </p>
         </div>
         <div class="dtoggle">
@@ -276,7 +279,7 @@
             <div class="mbadges"><span class="mb mb-l">Available</span></div>
           </div>
           <div class="mname">PLUGIN SDK</div>
-          <div class="mfull">Build your own module</div>
+          <div class="mfull">Build any module</div>
           <p class="mdesc">
             A
             <code
@@ -287,9 +290,9 @@
               "
               >manifest.json</code
             >
-            and a docker-compose, that's all. The kernel picks it up,
-            handles routing through Traefik and exposes its UI under
-            <code style="font-family: var(--font-mono); color: var(--red); font-size: 0.8em;">/api/&lt;name&gt;</code>.
+            and a docker-compose. Anything that runs in a container is a
+            valid plugin — a CPU model, a GPU model, a thin proxy to a
+            cloud API, or a pipeline that chains several together.
           </p>
           <div class="mexamples">
             <span class="mex">FastAPI</span
@@ -304,14 +307,14 @@
             <div class="mbadges"><span class="mb mb-c">Roadmap</span></div>
           </div>
           <div class="mname">CHAT</div>
-          <div class="mfull">Local LLM endpoint</div>
+          <div class="mfull">LLM endpoint — local or cloud</div>
           <p class="mdesc">
-            Ollama-backed chat module with model management, streaming
-            responses and an OpenAI-compatible REST surface. Next on the
-            roadmap.
+            Single OpenAI-compatible REST surface. Swappable backend: Ollama
+            for local inference, or a proxy to OpenAI / Anthropic / any
+            compatible provider. Switch per workspace.
           </p>
           <div class="mexamples">
-            <span class="mex">Ollama</span><span class="mex">OpenAI-compat</span>
+            <span class="mex">Ollama</span><span class="mex">OpenAI</span><span class="mex">Anthropic</span>
           </div>
         </div>
 
@@ -323,11 +326,12 @@
           <div class="mname">RAG</div>
           <div class="mfull">Retrieval over your documents</div>
           <p class="mdesc">
-            Local vector store with embeddings on CPU, source-cited answers.
-            Designed to plug into CHAT once it lands.
+            Bring your own vector store. Local Chroma / Qdrant for fully
+            on-prem deployments, or a remote managed one. Embeddings on CPU
+            or via a provider. Plugs into CHAT when it lands.
           </p>
           <div class="mexamples">
-            <span class="mex">Local vector DB</span><span class="mex">embeddings</span>
+            <span class="mex">Chroma</span><span class="mex">Qdrant</span><span class="mex">managed</span>
           </div>
         </div>
       </div>
@@ -344,6 +348,7 @@
           One command on Linux (Debian/Ubuntu, Fedora/RHEL, Arch) and macOS.
           Windows via WSL2. The installer detects existing Docker and reuses
           it — it does not reinstall or uninstall anything you have running.
+          From there, install any module — local CPU, cloud-backed, your own.
         </p>
       </div>
       <div class="how-grid">
@@ -427,15 +432,15 @@
                     margin-bottom: 0.38rem;
                   "
                 >
-                  ● Modules (local containers)
+                  ● Modules (containers)
                 </div>
                 <div
                   style="display: flex; flex-direction: column; gap: 0.32rem"
                 >
-                  <div class="an ln">OCR (Tesseract)</div>
-                  <div class="an ln">STT (faster-whisper)</div>
-                  <div class="an ln">TTS (Piper)</div>
-                  <div class="an ln">Your custom plugin</div>
+                  <div class="an ln">OCR — local CPU</div>
+                  <div class="an ln">STT — local CPU</div>
+                  <div class="an ln">TTS — local CPU</div>
+                  <div class="an ln">CHAT — local or cloud proxy</div>
                 </div>
               </div>
             </div>
@@ -485,7 +490,9 @@
           <p class="ssub">
             Source, roadmap and CI are public. The plugin contract is a
             single <code style="font-family: var(--font-mono); color: var(--red); font-size: 0.84em;">manifest.json</code> plus a
-            <code style="font-family: var(--font-mono); color: var(--red); font-size: 0.84em;">docker-compose.yml</code>; new modules ship as standalone repos under the queai-project org.
+            <code style="font-family: var(--font-mono); color: var(--red); font-size: 0.84em;">docker-compose.yml</code> — whatever
+            runs in a container can become a module: local models, cloud
+            proxies, pipelines.
           </p>
           <div class="clist">
             <div class="cli">

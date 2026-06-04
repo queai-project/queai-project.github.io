@@ -1,22 +1,28 @@
-# 🐙 QueAI Landing Page
+# QueAI Landing Page
 
-Official source code for [queai.dev](https://queai.dev), the gateway to the QueAI modular ecosystem.
+Source code for [queai.dev](https://queai.dev) — the public site of the QueAI ecosystem.
 
 <p align="center">
-  <img src="logo.png" alt="Kyubit Logo" width="200">
+  <img src="logo.png" alt="QueAI logo" width="200">
 </p>
 
-## ✨ Project Vision
-**QueAI** is built to decentralize Artificial Intelligence. We provide a seamless way to run powerful models (LLMs, OCR, STT) on your own local hardware, ensuring **100% data privacy** without cloud dependencies or API fees.
+## Sobre QueAI
 
-This landing page introduces **Kyubit**, our friendly octopus mascot and the heart of our orchestration logic.
+QueAI es un **orquestador modular de IA**. Cada capacidad (chat, OCR, STT, TTS, RAG, …) es un contenedor Docker independiente con su propia UI y API REST. Un módulo puede ejecutar un modelo localmente en CPU, hacer de *thin proxy* a una API pública (OpenAI, Anthropic, ElevenLabs), o encadenar pasos en un pipeline. El kernel orquesta — local, cloud o híbrido.
 
-## Get Involved
-Help us grow the QueAI ecosystem:
-1. Star ⭐ this repository to boost our visibility.
-2. Check the [Issues](https://github.com/queai-project/queai-project.github.io/issues) for pending web improvements.
-3. Fork and submit a Pull Request to contribute.
+Más información, código y documentación en [`queai-project/QueAI`](https://github.com/queai-project/QueAI).
 
----
-Built with ❤️ by the **QueAI** Community.  
-Stay local. Stay private. [queai.dev](https://queai.dev)
+## Este repositorio
+
+- `index.html`, `style.css`, `app.js` — la landing pública.
+- `install.sh` — copia espejo del instalador del kernel, servida en `https://queai.dev/install.sh`. Se mantiene sincronizada con el repo principal por un workflow.
+- Assets visuales (logo, favicon, mascota Kyubit).
+
+## Contribuir a la landing
+
+1. Issues de la web: [Issues](https://github.com/queai-project/queai-project.github.io/issues).
+2. Fork + Pull Request — los cambios al copy deben respetar el [positioning oficial](https://github.com/queai-project/QueAI/blob/main/docs/PRODUCTVISION.md).
+
+## Licencia
+
+MIT.

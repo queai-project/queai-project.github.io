@@ -335,8 +335,9 @@
                 The installer is idempotent: rerunning it updates the kernel
                 without touching your existing containers.
               </p>
-              <div class="step-c">
-                <span class="kw">curl</span> -fsSL https://queai.dev/install.sh | bash
+              <div class="step-c" data-cmd="curl -fsSL https://queai.dev/install.sh | bash">
+                <span class="cmd-text"><span class="kw">curl</span> -fsSL https://queai.dev/install.sh | bash</span>
+                <button type="button" class="cmd-copy" aria-label="Copy command" onclick="copyCmd(this)">COPY</button>
               </div>
             </div>
           </div>
@@ -347,8 +348,9 @@
               <p class="step-d">
                 Health endpoint reports kernel version and active module count.
               </p>
-              <div class="step-c">
-                <span class="kw">curl</span> -fsSL http://localhost:8473/health
+              <div class="step-c" data-cmd="curl -fsSL http://localhost:8473/health">
+                <span class="cmd-text"><span class="kw">curl</span> -fsSL http://localhost:8473/health</span>
+                <button type="button" class="cmd-copy" aria-label="Copy command" onclick="copyCmd(this)">COPY</button>
               </div>
             </div>
           </div>
@@ -361,8 +363,9 @@
                 catalog you install, configure and monitor modules with one
                 click each.
               </p>
-              <div class="step-c">
-                <span class="kw">open</span> http://localhost:8473
+              <div class="step-c" data-cmd="open http://localhost:8473">
+                <span class="cmd-text"><span class="kw">open</span> http://localhost:8473</span>
+                <button type="button" class="cmd-copy" aria-label="Copy command" onclick="copyCmd(this)">COPY</button>
               </div>
             </div>
           </div>
@@ -376,8 +379,9 @@
                 CLI to drive the same operations from scripts, CI or another
                 host through the REST API.
               </p>
-              <div class="step-c">
-                <span class="kw">pipx</span> install queai
+              <div class="step-c" data-cmd="pipx install queai">
+                <span class="cmd-text"><span class="kw">pipx</span> install queai</span>
+                <button type="button" class="cmd-copy" aria-label="Copy command" onclick="copyCmd(this)">COPY</button>
               </div>
             </div>
           </div>

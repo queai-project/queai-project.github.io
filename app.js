@@ -46,3 +46,24 @@
       }
     });
   },{threshold:0.45}).observe(s));
+// Copy-to-clipboard para los comandos del Get Started.
+window.copyCmd = function(btn) {
+  const cmd = btn.parentElement?.dataset?.cmd;
+  if (!cmd) return;
+  const fallback = () => {
+    const ta = document.createElement('textarea');
+    ta.value = cmd; ta.style.position='fixed'; ta.style.opacity='0';
+    document.body.appendChild(ta); ta.select();
+    try { document.execCommand('copy'); } catch(_) {}
+    document.body.removeChild(ta);
+  };
+  const finish = () => {
+    const orig = btn.textContent;
+    btn.textContent = 'COPIED';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = orig; btn.classList.remove('copied'); }, 1400);
+  };
+  if (navigator.clipboard?.writeText) {
+    navigator.clipboard.writeText(cmd).then(finish, () => { fallback(); finish(); });
+  } else { fallback(); finish(); }
+};

@@ -369,18 +369,71 @@ ensure_docker_runtime() {
   exit 1
 }
 
+install_compose_v2_plugin() {
+  # Install the docker compose v2 plugin via the local package manager.
+  # Falls back to placing the static binary in ~/.docker/cli-plugins/ if
+  # the package isn't available (older distros, vendored Docker images).
+  step "Installing Docker Compose v2 plugin"
+  case "$PKG_MGR" in
+    apt)    need_sudo; run "$SUDO apt-get update -qq && $SUDO apt-get install -y docker-compose-plugin" ;;
+    dnf)    need_sudo; run "$SUDO dnf install -y docker-compose-plugin" ;;
+    yum)    need_sudo; run "$SUDO yum install -y docker-compose-plugin" ;;
+    pacman) need_sudo; run "$SUDO pacman -Sy --noconfirm docker-compose" ;;
+    *)
+      # Fallback: drop the static binary in the user's cli-plugins dir.
+      local plugin_dir="${HOME}/.docker/cli-plugins"
+      local plugin_path="${plugin_dir}/docker-compose"
+      local arch_suffix
+      case "$ARCH" in
+        amd64) arch_suffix="x86_64" ;;
+        arm64) arch_suffix="aarch64" ;;
+        *)     err "Unsupported arch for compose plugin fallback: $ARCH"; exit 1 ;;
+      esac
+      mkdir -p "$plugin_dir"
+      run "curl -fsSL https://github.com/docker/compose/releases/latest/download/docker-compose-linux-${arch_suffix} -o '$plugin_path'"
+      run "chmod +x '$plugin_path'"
+      ;;
+  esac
+
+  if ! docker compose version >/dev/null 2>&1; then
+    err "Docker Compose v2 still doesn't respond after install."
+    err "Try installing manually: https://docs.docker.com/compose/install/"
+    exit 1
+  fi
+  log "Docker Compose v2 installed"
+}
+
 ensure_compose() {
-  # On modern installations it comes as `docker compose` (plugin).
-  # On older systems it can be the `docker-compose` binary.
+  # Prefer `docker compose` (v2 plugin) which is the supported Docker
+  # client today. If only the legacy `docker-compose` v1 binary is around,
+  # offer to install v2: v1 is EOL since 2023 and the most common failure
+  # mode is `KeyError: 'ContainerConfig'` against any Docker daemon
+  # newer than ~25.x because the legacy client reads a key the modern
+  # daemon no longer exposes. So we treat v1 as effectively broken even
+  # if `docker-compose --version` happily responds.
   if docker compose version >/dev/null 2>&1; then
     log "Docker Compose v2 available"
     return
   fi
+
   if have docker-compose; then
-    warn "Detected docker-compose v1 (legacy). It will work but v2 is recommended."
+    warn "Found docker-compose v1 (legacy, EOL 2023)."
+    warn "It crashes against modern Docker daemons with a 'ContainerConfig' KeyError."
+    if confirm "Install Docker Compose v2 plugin now?"; then
+      install_compose_v2_plugin
+      return
+    fi
+    err "v1 is not supported. Aborting before docker-compose up fails on you."
+    err "Install manually:  sudo apt-get install -y docker-compose-plugin"
+    exit 1
+  fi
+
+  warn "Docker Compose is not available."
+  if confirm "Install Docker Compose v2 plugin now?"; then
+    install_compose_v2_plugin
     return
   fi
-  err "Docker Compose is not available. Reinstall Docker from get.docker.com."
+  err "Docker Compose is required. Install it from https://docs.docker.com/compose/install/"
   exit 1
 }
 
@@ -594,11 +647,10 @@ start_services() {
 
   cd "$INSTALL_DIR"
 
-  # Pick the compose binary we have available (v2 plugin or v1 binary).
+  # ensure_compose() has guaranteed that v2 is available at this point.
+  # We do NOT fall back to v1: docker-compose 1.x crashes against modern
+  # Docker daemons with 'ContainerConfig' KeyError.
   local compose_bin="docker compose"
-  if ! docker compose version >/dev/null 2>&1; then
-    compose_bin="docker-compose"
-  fi
 
   if [ -n "$DOCKER_RUNTIME_WRAP" ]; then
     # sg docker -c "..." opens a sub-shell with the docker group applied.

@@ -404,37 +404,24 @@ install_compose_v2_plugin() {
 }
 
 ensure_compose() {
-  # Prefer `docker compose` (v2 plugin) which is the supported Docker
-  # client today. If only the legacy `docker-compose` v1 binary is around,
-  # offer to install v2: v1 is EOL since 2023 and the most common failure
-  # mode is `KeyError: 'ContainerConfig'` against any Docker daemon
-  # newer than ~25.x because the legacy client reads a key the modern
-  # daemon no longer exposes. So we treat v1 as effectively broken even
-  # if `docker-compose --version` happily responds.
+  # Prefer `docker compose` (v2 plugin) — the supported Docker client today.
+  # If only the legacy `docker-compose` v1 binary is around (or nothing at
+  # all) we install v2 silently. v1 has been EOL since 2023 and fails with
+  # `KeyError: 'ContainerConfig'` against Docker daemons >= 25.x as soon as
+  # docker-compose has to recreate a container — so on every kernel
+  # upgrade. The right call is to fix it for the user without breaking
+  # the one-liner UX by sticking a prompt in the middle.
   if docker compose version >/dev/null 2>&1; then
     log "Docker Compose v2 available"
     return
   fi
 
   if have docker-compose; then
-    warn "Found docker-compose v1 (legacy, EOL 2023)."
-    warn "It crashes against modern Docker daemons with a 'ContainerConfig' KeyError."
-    if confirm "Install Docker Compose v2 plugin now?"; then
-      install_compose_v2_plugin
-      return
-    fi
-    err "v1 is not supported. Aborting before docker-compose up fails on you."
-    err "Install manually:  sudo apt-get install -y docker-compose-plugin"
-    exit 1
+    log "Found legacy docker-compose v1 — installing v2 plugin (v1 is EOL since 2023)"
+  else
+    log "Docker Compose not found — installing v2 plugin"
   fi
-
-  warn "Docker Compose is not available."
-  if confirm "Install Docker Compose v2 plugin now?"; then
-    install_compose_v2_plugin
-    return
-  fi
-  err "Docker Compose is required. Install it from https://docs.docker.com/compose/install/"
-  exit 1
+  install_compose_v2_plugin
 }
 
 # ----------------------------------------------------------------------------
